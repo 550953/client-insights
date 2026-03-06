@@ -1,0 +1,4 @@
+﻿полный анализ с видео и сайта https://grok.com/c/17cea10a-b689-4ea1-922a-c2a662ea4b3f?rid=fd40e3ff-285c-449e-bedf-4b2428b3af41 
+
+апи на фласк https://chat.deepseek.com/a/chat/s/994a82b2-f55b-45db-932b-804c5308c55e
+база и финал хтмл https://claude.ai/chat/2af74fc2-55a9-4b2f-985a-c49d02bceacf
