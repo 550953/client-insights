@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Client Insights</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d0d0d;
+  --surface: #161616;
+  --border: rgba(255,255,255,0.07);
+  --gold: #c9a84c;
+  --gold-dim: rgba(201,168,76,0.15);
+  --white: #f0ede8;
+  --muted: rgba(240,237,232,0.4);
+  --accent: #c45e2a;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--white);
+  overflow-x: hidden;
+}
+
+/* ── NAV ── */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 1.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(13,13,13,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+
+.nav-logo {
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  letter-spacing: 0.08em;
+  color: var(--gold);
+  text-decoration: none;
+  text-transform: lowercase;
+}
+
+.nav-contact {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-decoration: none;
+  border: 1px solid var(--border);
+  padding: 0.5rem 1.25rem;
+  border-radius: 100px;
+  transition: all 0.2s;
+}
+.nav-contact:hover {
+  color: var(--white);
+  border-color: rgba(255,255,255,0.2);
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 6rem 4rem 5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-glow {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 700px;
+  height: 700px;
+  background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  color: var(--gold);
+  font-size: 0.78rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: up 0.8s 0.1s forwards;
+}
+.hero-eyebrow::before {
+  content: '';
+  width: 36px;
+  height: 1px;
+  background: var(--gold);
+}
+
+.hero-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(3.5rem, 7vw, 6.5rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 2.5rem;
+  opacity: 0;
+  animation: up 0.8s 0.25s forwards;
+}
+
+.hero-title em {
+  font-style: italic;
+  color: var(--gold);
+  display: block;
+}
+
+.hero-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 3rem;
+  opacity: 0;
+  animation: up 0.8s 0.4s forwards;
+}
+
+.hero-desc {
+  max-width: 480px;
+  color: var(--muted);
+  font-size: 1.05rem;
+  line-height: 1.75;
+  font-weight: 300;
+}
+
+.hero-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--gold);
+  color: #1a1208;
+  text-decoration: none;
+  padding: 1rem 2rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  white-space: nowrap;
+  transition: all 0.25s;
+  flex-shrink: 0;
+}
+.hero-cta:hover {
+  background: #d4b05a;
+  transform: translateY(-2px);
+}
+.hero-cta-arrow { font-size: 1rem; transition: transform 0.2s; }
+.hero-cta:hover .hero-cta-arrow { transform: translateX(4px); }
+
+/* ── DIVIDER ── */
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 0 4rem;
+}
+
+/* ── WHAT ── */
+.what-section {
+  padding: 7rem 4rem;
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 6rem;
+  align-items: start;
+}
+
+.what-label {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1.5rem;
+}
+.what-label::before { content: ''; width: 24px; height: 1px; background: var(--gold); }
+
+.what-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.what-title em { font-style: italic; color: var(--gold); }
+
+.steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  gap: 1.5rem;
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--border);
+  align-items: start;
+}
+.step:first-child { border-top: 1px solid var(--border); }
+
+.step-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 0.85rem;
+  color: var(--gold);
+  font-weight: 700;
+  padding-top: 0.25rem;
+}
+
+.step-title {
+  font-weight: 500;
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+  color: var(--white);
+}
+
+.step-desc {
+  color: var(--muted);
+  font-size: 0.9rem;
+  line-height: 1.65;
+}
+
+/* ── CASES ── */
+.cases-section {
+  padding: 3rem 4rem 7rem;
+}
+
+.cases-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3rem;
+}
+
+.cases-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.cases-note {
+  color: var(--muted);
+  font-size: 0.85rem;
+  text-align: right;
+  max-width: 200px;
+  line-height: 1.5;
+}
+
+.cases-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5px;
+  border: 1px solid var(--border);
+  border-radius: 1.5rem;
+  overflow: hidden;
+}
+
+/* Active case */
+.case-card {
+  background: var(--surface);
+  padding: 2.5rem;
+  text-decoration: none;
+  color: var(--white);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  transition: background 0.25s;
+  position: relative;
+  overflow: hidden;
+  min-height: 280px;
+}
+
+.case-card:hover { background: #1e1e1e; }
+
+.case-card.active {
+  background: linear-gradient(135deg, #1e1808 0%, #2a2010 100%);
+}
+
+.case-card.active::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -20%;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(201,168,76,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.case-card.coming {
+  background: rgba(255,255,255,0.015);
+  cursor: default;
+}
+
+.case-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 0.3rem 0.85rem;
+  border-radius: 100px;
+  width: fit-content;
+}
+
+.case-status.live {
+  background: rgba(201,168,76,0.15);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.25);
+}
+
+.case-status.soon {
+  background: rgba(255,255,255,0.04);
+  color: rgba(255,255,255,0.25);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+.case-status-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.case-industry {
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.case-name {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  flex-grow: 1;
+}
+
+.case-card.coming .case-name { color: rgba(255,255,255,0.2); }
+
+.case-stats {
+  display: flex;
+  gap: 2rem;
+}
+
+.case-stat-n {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.case-stat-l {
+  font-size: 0.72rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-top: 0.3rem;
+}
+
+.case-arrow {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(201,168,76,0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--gold);
+  font-size: 0.9rem;
+  margin-top: auto;
+  align-self: flex-end;
+  transition: all 0.2s;
+}
+
+.case-card:hover .case-arrow {
+  background: var(--gold);
+  color: #1a1208;
+}
+
+/* ── HOW ── */
+.how-section {
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 7rem 4rem;
+}
+
+.how-inner {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.how-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  margin-bottom: 1rem;
+}
+
+.how-title em { font-style: italic; color: var(--gold); }
+
+.how-desc {
+  color: var(--muted);
+  font-size: 1rem;
+  line-height: 1.75;
+  margin-bottom: 4rem;
+  max-width: 520px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.how-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  overflow: hidden;
+}
+
+.how-card {
+  background: var(--surface);
+  padding: 2.5rem 2rem;
+  text-align: left;
+}
+
+.how-icon {
+  font-size: 1.8rem;
+  margin-bottom: 1.25rem;
+}
+
+.how-card-title {
+  font-weight: 500;
+  font-size: 1rem;
+  margin-bottom: 0.6rem;
+}
+
+.how-card-text {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.65;
+}
+
+/* ── CTA ── */
+.cta-section {
+  padding: 7rem 4rem;
+  text-align: center;
+}
+
+.cta-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 2rem;
+}
+.cta-label::before, .cta-label::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+}
+
+.cta-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  margin-bottom: 1.5rem;
+}
+
+.cta-title em { font-style: italic; color: var(--gold); }
+
+.cta-sub {
+  color: var(--muted);
+  font-size: 1rem;
+  margin-bottom: 3rem;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.7;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: var(--gold);
+  color: #1a1208;
+  text-decoration: none;
+  padding: 1rem 2.25rem;
+  border-radius: 100px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+.btn-primary:hover { background: #d4b05a; transform: translateY(-2px); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: transparent;
+  color: var(--white);
+  text-decoration: none;
+  padding: 1rem 2.25rem;
+  border-radius: 100px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  border: 1px solid var(--border);
+  transition: all 0.2s;
+}
+.btn-secondary:hover { border-color: rgba(255,255,255,0.2); }
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 2.5rem 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.footer-logo {
+  font-family: 'DM Sans', sans-serif;
+  color: var(--gold);
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+}
+
+.footer-right {
+  color: rgba(255,255,255,0.2);
+  font-size: 0.78rem;
+}
+
+/* ── ANIMATION ── */
+@keyframes up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── MOBILE ── */
+@media (max-width: 768px) {
+  nav { padding: 1.25rem 1.5rem; }
+  .nav-contact { display: none; }
+
+  .hero { padding: 6rem 1.5rem 4rem; min-height: 100svh; }
+  .hero-title { font-size: 3rem; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 2rem; }
+  .hero-cta { width: 100%; justify-content: center; }
+
+  .divider { margin: 0 1.5rem; }
+
+  .what-section {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    padding: 5rem 1.5rem;
+  }
+
+  .cases-section { padding: 2rem 1.5rem 5rem; }
+  .cases-header { flex-direction: column; align-items: flex-start; gap: 0.75rem; }
+  .cases-note { text-align: left; max-width: 100%; }
+  .cases-grid { grid-template-columns: 1fr; }
+  .case-card { min-height: auto; }
+
+  .how-section { padding: 5rem 1.5rem; }
+  .how-grid { grid-template-columns: 1fr; }
+
+  .cta-section { padding: 5rem 1.5rem; }
+  .cta-title { font-size: 2.8rem; }
+  .cta-buttons { flex-direction: column; }
+  .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+
+  footer { flex-direction: column; gap: 1rem; padding: 2rem 1.5rem; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-logo">client-insights</a>
+  <a href="https://t.me/snik550950" class="nav-contact">Написать в Telegram</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-glow"></div>
+
+  <div class="hero-eyebrow">Аналитика для бизнеса</div>
+
+  <h1 class="hero-title">
+    Мы приходим<br>
+    <em>уже с данными.</em>
+  </h1>
+
+  <div class="hero-bottom">
+    <p class="hero-desc">
+      Изучаем ваш бизнес до первой встречи — разбираем базу данных, 
+      считаем потери, готовим конкретный план. Никаких общих слов.
+    </p>
+    <a href="#cases" class="hero-cta">
+      Смотреть кейсы
+      <span class="hero-cta-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- WHAT -->
+<section class="what-section">
+  <div>
+    <div class="what-label">Как это работает</div>
+    <h2 class="what-title">
+      Не предложение —<br>
+      <em>готовое решение</em>
+    </h2>
+  </div>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">01</div>
+      <div>
+        <div class="step-title">Изучаем бизнес заранее</div>
+        <div class="step-desc">Собираем публичные данные, изучаем продукт, считаем цифры. До звонка знаем больше, чем большинство подрядчиков после брифа.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">02</div>
+      <div>
+        <div class="step-title">Находим где теряются деньги</div>
+        <div class="step-desc">Смотрим на процессы глазами инженера — где ручной труд, где нет автоматизации, где данные не работают на бизнес.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">03</div>
+      <div>
+        <div class="step-title">Готовим конкретный план</div>
+        <div class="step-desc">Три варианта под любой бюджет — с реальными цифрами, сроками и техническим демо. Не презентация, а рабочий прототип.</div>
+      </div>
+    </div>
+    <div class="step">
+      <div class="step-num">04</div>
+      <div>
+        <div class="step-title">Показываем вживую</div>
+        <div class="step-desc">API с вашими данными, работающая демо-версия. Клиент видит результат до того, как платит первый рубль.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CASES -->
+<section class="cases-section" id="cases">
+  <div class="cases-header">
+    <h2 class="cases-title">Кейсы</h2>
+    <div class="cases-note">Каждый проект — реальные данные, не макет</div>
+  </div>
+
+  <div class="cases-grid">
+
+    <!-- АКТИВНЫЙ КЕЙС -->
+    <a href="/bachata-dancefit/index.html" class="case-card active">
+      <div class="case-status live">
+        <span class="case-status-dot"></span>
+        Готово
+      </div>
+      <div class="case-industry">Танцевальный франчайзинг</div>
+      <div class="case-name">Bachata DanceFit</div>
+      <div class="case-stats">
+        <div>
+          <div class="case-stat-n">735</div>
+          <div class="case-stat-l">инструкторов</div>
+        </div>
+        <div>
+          <div class="case-stat-n">47</div>
+          <div class="case-stat-l">городов</div>
+        </div>
+      </div>
+      <div class="case-arrow">→</div>
+    </a>
+
+    <!-- ЗАГЛУШКИ -->
+    <div class="case-card coming">
+      <div class="case-status soon">
+        <span class="case-status-dot"></span>
+        Скоро
+      </div>
+      <div class="case-industry">— — —</div>
+      <div class="case-name">Следующий<br>клиент</div>
+    </div>
+
+    <div class="case-card coming">
+      <div class="case-status soon">
+        <span class="case-status-dot"></span>
+        Скоро
+      </div>
+      <div class="case-industry">— — —</div>
+      <div class="case-name">Следующий<br>клиент</div>
+    </div>
+
+  </div>
+</section>
+
+<!-- HOW -->
+<section class="how-section">
+  <div class="how-inner">
+    <div class="what-label" style="justify-content: center; margin-bottom: 1.5rem;">Что входит в каждый инсайд</div>
+    <h2 class="how-title">Не слова —<br><em>доказательства</em></h2>
+    <p class="how-desc">Каждый клиентский инсайд включает три вещи, которые обычно делают после подписания договора.</p>
+
+    <div class="how-grid">
+      <div class="how-card">
+        <div class="how-icon">🔍</div>
+        <div class="how-card-title">Анализ бизнеса</div>
+        <div class="how-card-text">Разбираем модель, считаем объём рынка, находим узкие места. На реальных данных, не на догадках.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">⚡</div>
+        <div class="how-card-title">Работающее демо</div>
+        <div class="how-card-text">API с реальными данными клиента. Можно открыть в браузере и потрогать до любых договорённостей.</div>
+      </div>
+      <div class="how-card">
+        <div class="how-icon">🗺️</div>
+        <div class="how-card-title">Дорожная карта</div>
+        <div class="how-card-text">Три варианта — быстрый старт, оптимум и полная автоматизация. С ценами и сроками.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="cta-label">Начать</div>
+  <h2 class="cta-title">Хотите так же<br><em>про ваш бизнес?</em></h2>
+  <p class="cta-sub">Расскажите про проект — через 3–5 дней пришлём готовый инсайд с демо.</p>
+  <div class="cta-buttons">
+    <a href="https://t.me/snik550950" class="btn-primary">Написать в Telegram →</a>
+    <a href="/bachata-dancefit/index.html" class="btn-secondary">Посмотреть пример</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="/" class="footer-logo">client-insights.shikinn.com</a>
+  <div class="footer-right">Николай Шикин • 2026</div>
+</footer>
+
+</body>
+</html>
