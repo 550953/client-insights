@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bachata DanceFit • План развития</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #faf9f6;
+            color: #1e1e1e;
+            line-height: 1.5;
+            padding: 2rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px -10px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e1e1e 0%, #2d2d2d 100%);
+            color: white;
+            padding: 3rem 4rem;
+        }
+
+        .header h1 {
+            font-size: 2.8rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.8;
+            max-width: 600px;
+        }
+
+        .section {
+            padding: 3rem 4rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .section:last-child {
+            border-bottom: none;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section h2 span {
+            background: #e8e6e1;
+            color: #1e1e1e;
+            font-size: 1rem;
+            padding: 0.2rem 1rem;
+            border-radius: 100px;
+            font-weight: 500;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .card {
+            background: #f8f7f4;
+            border-radius: 1.5rem;
+            padding: 2rem;
+            transition: all 0.2s ease;
+        }
+
+        .card:hover {
+            background: #f0eeea;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .card ul {
+            list-style: none;
+        }
+
+        .card li {
+            margin-bottom: 0.75rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .card li::before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #1e1e1e;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-block;
+            background: white;
+            padding: 0.25rem 1rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .price-tag {
+            background: #1e1e1e;
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 100px;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 1.5rem;
+            font-size: 1.2rem;
+        }
+
+        .price-tag small {
+            font-weight: 400;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        .note {
+            background: #fff9e5;
+            border-left: 4px solid #f0b400;
+            padding: 1.5rem 2rem;
+            border-radius: 1rem;
+            margin: 2rem 0 0;
+        }
+
+        .highlight {
+            background: #1e1e1e;
+            color: white;
+            padding: 2rem;
+            border-radius: 1.5rem;
+        }
+
+        .button {
+            display: inline-block;
+            background: #1e1e1e;
+            color: white;
+            text-decoration: none;
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            border: none;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .button:hover {
+            background: #3d3d3d;
+        }
+
+        .button-outline {
+            background: transparent;
+            color: #1e1e1e;
+            border: 2px solid #1e1e1e;
+        }
+
+        .button-outline:hover {
+            background: #1e1e1e;
+            color: white;
+        }
+
+        .footer {
+            background: #f8f7f4;
+            padding: 2rem 4rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .stats {
+            display: flex;
+            gap: 3rem;
+            margin: 2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .roadmap {
+            display: flex;
+            justify-content: space-between;
+            margin: 3rem 0;
+            position: relative;
+        }
+
+        .roadmap-step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .roadmap-step:not(:last-child)::after {
+            content: "→";
+            position: absolute;
+            right: -0.5rem;
+            top: 1rem;
+            color: #ccc;
+            font-size: 1.5rem;
+        }
+
+        .roadmap-dot {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: #1e1e1e;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-weight: 700;
+        }
+
+        @media (max-width: 900px) {
+            .header, .section {
+                padding: 2rem;
+            }
+            .grid-2, .grid-3 {
+                grid-template-columns: 1fr;
+            }
+            .stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .roadmap {
+                flex-direction: column;
+                gap: 2rem;
+            }
+            .roadmap-step:not(:last-child)::after {
+                content: "↓";
+                right: auto;
+                bottom: -1.5rem;
+                top: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <!-- ШАПКА -->
+    <div class="header">
+        <h1>Bachata DanceFit</h1>
+        <p>Платформа для роста сети инструкторов • Аналитика и автоматизация</p>
+        <div style="margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap;">
+            <span class="badge" style="background: rgba(255,255,255,0.15); color: white;">735 инструкторов</span>
+            <span class="badge" style="background: rgba(255,255,255,0.15); color: white;">40+ городов</span>
+            <span class="badge" style="background: rgba(255,255,255,0.15); color: white;">4 уровня обучения</span>
+            <span class="badge" style="background: rgba(255,255,255,0.15); color: white;">Схема 50/50</span>
+        </div>
+    </div>
+
+    <!-- ЧТО МЫ ПОНЯЛИ -->
+    <div class="section">
+        <h2>🔍 Что мы увидели в вашем бизнесе</h2>
+        <div class="grid-2">
+            <div class="card">
+                <h3>📊 Данные, которые уже есть</h3>
+                <ul>
+                    <li>735 инструкторов с городами и статусами</li>
+                    <li>Полная история покупок и сертификатов</li>
+                    <li>Визитки, расписания, контакты</li>
+                    <li>Схема оплаты 50/50 — уже в базе</li>
+                    <li>Сроки лицензий у каждого</li>
+                </ul>
+            </div>
+            <div class="card">
+                <h3>⚠️ Где сейчас потери</h3>
+                <ul>
+                    <li>Инструкторы пишут в WhatsApp для правки визитки</li>
+                    <li>Поддержка вручную добавляет сертификаты на Яндекс.Диск</li>
+                    <li>Нет автоматических напоминаний о второй части оплаты</li>
+                    <li>Лицензии истекают — никто не знает заранее</li>
+                    <li>NocoDB ломается при обновлениях</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- СТАТИСТИКА ИЗ БАЗЫ -->
+    <div class="section" style="background: #f8f7f4;">
+        <h2>📈 Цифры из вашей базы</h2>
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">735</div>
+                <div class="stat-label">инструкторов</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">47</div>
+                <div class="stat-label">городов России и СНГ</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">11</div>
+                <div class="stat-label">таблиц со структурой</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">₽31-40k</div>
+                <div class="stat-label">средний чек</div>
+            </div>
+        </div>
+        <p style="color: #666; margin-top: 1rem;">*данные актуальны на 06.03.2026</p>
+    </div>
+
+    <!-- ЧТО МЫ МОЖЕМ ПРЕДЛОЖИТЬ (3 ВАРИАНТА) -->
+    <div class="section">
+        <h2>🛠️ Три пути развития</h2>
+        <div class="grid-3">
+            <!-- ВАРИАНТ 1: БЫСТРЫЙ СТАРТ -->
+            <div class="card" style="background: #f0f2f5;">
+                <h3>🚀 Базовый</h3>
+                <p style="color: #444; margin-bottom: 1rem;">Стабильность и связка с текущим кабинетом</p>
+                <ul>
+                    <li>✅ Стабильный API вместо NocoDB</li>
+                    <li>✅ Подключение вашего кабинета к реальным данным</li>
+                    <li>✅ Автоматическая выдача сертификатов (PDF)</li>
+                    <li>✅ Инструкторы видят свои данные</li>
+                    <li>✅ Никаких больше Яндекс.Дисков</li>
+                </ul>
+                <div class="price-tag">≈ 50 000 ₽ <small>единоразово</small></div>
+            </div>
+
+            <!-- ВАРИАНТ 2: ЛИЧНЫЙ КАБИНЕТ -->
+            <div class="card" style="background: #eaeef2;">
+                <h3>🌟 Оптимальный</h3>
+                <p style="color: #444; margin-bottom: 1rem;">Полноценный кабинет инструктора</p>
+                <ul>
+                    <li>✅ Всё из Базового</li>
+                    <li>✅ Красивый веб-кабинет (React)</li>
+                    <li>✅ Редактирование визитки самим инструктором</li>
+                    <li>✅ Автоматические напоминания об оплате (email/Telegram)</li>
+                    <li>✅ Публичная карта инструкторов на сайте</li>
+                    <li>✅ Модерация визиток за 24ч</li>
+                </ul>
+                <div class="price-tag">≈ 150 000 ₽</div>
+            </div>
+
+            <!-- ВАРИАНТ 3: ПОЛНАЯ АВТОМАТИЗАЦИЯ -->
+            <div class="card" style="background: #e4e8ed;">
+                <h3>⚡ Премиум</h3>
+                <p style="color: #444; margin-bottom: 1rem;">Умная система, которая продаёт сама</p>
+                <ul>
+                    <li>✅ Всё из Оптимального</li>
+                    <li>✅ Автоматические продажи ретренингов в кабинете</li>
+                    <li>✅ Уведомления о скором истечении лицензии</li>
+                    <li>✅ Telegram-бот для инструкторов</li>
+                    <li>✅ Дашборд для Марины (аналитика)</li>
+                    <li>✅ Экспорт отчетов для налоговой</li>
+                </ul>
+                <div class="price-tag">≈ 350 000 ₽</div>
+            </div>
+        </div>
+        <div class="note">
+            <strong>💡 Мы не гадаем</strong> — мы уже развернули ваш API и данные на сервере. Можем показать вживую.
+        </div>
+    </div>
+
+    <!-- ДОРОЖНАЯ КАРТА -->
+    <div class="section">
+        <h2>🗺️ Этапы (если двигаться поэтапно)</h2>
+        <div class="roadmap">
+            <div class="roadmap-step">
+                <div class="roadmap-dot">1</div>
+                <h4>Неделя 1</h4>
+                <p>Стабильный API, связка с текущим кабинетом</p>
+            </div>
+            <div class="roadmap-step">
+                <div class="roadmap-dot">2</div>
+                <h4>Неделя 2-3</h4>
+                <p>Telegram-уведомления, автоматические сертификаты</p>
+            </div>
+            <div class="roadmap-step">
+                <div class="roadmap-dot">3</div>
+                <h4>Месяц 1</h4>
+                <p>Личный кабинет инструктора (визитки, профиль)</p>
+            </div>
+            <div class="roadmap-step">
+                <div class="roadmap-dot">4</div>
+                <h4>Месяц 2</h4>
+                <p>Публичная карта, автоматизация продаж</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ЧТО МЫ УЖЕ СДЕЛАЛИ (ДЕМО) -->
+    <div class="section highlight">
+        <h2 style="color: white;">✅ Что уже работает прямо сейчас</h2>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem;">
+            <div>
+                <ul style="color: rgba(255,255,255,0.9);">
+                    <li style="margin-bottom: 1rem;">📦 Ваши данные перенесены в MySQL</li>
+                    <li style="margin-bottom: 1rem;">🔗 Работающий API с документацией</li>
+                    <li style="margin-bottom: 1rem;">👤 Пример инструктора: <code style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 6px;">/users/23</code></li>
+                    <li style="margin-bottom: 1rem;">📋 Все таблицы доступны через API</li>
+                </ul>
+            </div>
+            <div>
+                <ul style="color: rgba(255,255,255,0.9);">
+                    <li style="margin-bottom: 1rem;">🌐 Документация: <code style="background: rgba(255,255,255,0.2); padding: 0.2rem 0.5rem; border-radius: 6px;">/docs</code></li>
+                    <li style="margin-bottom: 1rem;">📊 Готовность к интеграции с вашим кабинетом</li>
+                    <li style="margin-bottom: 1rem;">🔒 Никаких автообновлений</li>
+                </ul>
+            </div>
+        </div>
+        <div style="margin-top: 2rem;">
+            <a href="http://46.149.75.170:8000/docs" target="_blank" class="button" style="background: white; color: #1e1e1e;">👀 Посмотреть демо</a>
+        </div>
+    </div>
+
+    <!-- FAQ / КОРОТКО -->
+    <div class="section">
+        <h2>❓ Часто задаваемое</h2>
+        <div style="display: grid; gap: 1.5rem;">
+            <div>
+                <strong>🤔 А зачем нам это, если у нас уже есть кабинет на Тильде?</strong>
+                <p style="color: #555;">Ваш кабинет — это красивая обёртка. Под ней должны быть реальные данные. Мы соединяем обёртку с данными, и она начинает работать по-настоящему.</p>
+            </div>
+            <div>
+                <strong>🤔 Мы не хотим терять текущий дизайн и логику.</strong>
+                <p style="color: #555;">И не нужно! Мы можем интегрироваться с тем, что уже сделано. Ваш дизайн останется, просто под капотом будет стабильный API.</p>
+            </div>
+            <div>
+                <strong>🤔 Сколько времени займёт «Базовый» вариант?</strong>
+                <p style="color: #555;">7-10 дней. За это время мы настраиваем API, подключаем ваш кабинет, делаем тестовую выборку.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ПОДВАЛ -->
+    <div class="footer">
+        <p>© 2026 • Аналитика по данным Bachata DanceFit • Подготовлено для демонстрации</p>
+        <p style="margin-top: 1rem; font-size: 0.85rem;">Мы не используем ИИ-обобщения — только анализ вашей реальной базы и видео</p>
+    </div>
+</div>
+</body>
+</html>
